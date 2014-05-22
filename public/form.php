@@ -19,7 +19,7 @@
         <input id="password" name="password" type="password" placeholder="Password">
     </p>
     <p>
-        <input type="submit" value="Log In">
+        <button type="submit">Log In</button>
     </p>
 </form>
 
