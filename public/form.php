@@ -43,8 +43,13 @@
 			<textarea id="email_body" name="email_body" rows="20" cols="80"></textarea>
 		</p>
 		<p>
-		<button type="submit">Submit</button>
-	</p>
+			<label for="saved_folder">
+				Save a copy to my sent folder<input type="checkbox" id="saved_folder" name="saved_folder" value="Yes" checked>
+			</label>
+		</p>
+		<p>
+			<button type="submit">Submit</button>
+		</p>
 		</form>
 
 </body>
