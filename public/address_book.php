@@ -8,7 +8,7 @@
 
 $filename = "address_book.csv";
 $address_book = [];
-$address_book[] = $_POST;
+$new_contact = $_POST;
 
 // function to store new entries
 function save_contact($contacts, $file)
@@ -24,22 +24,53 @@ function save_contact($contacts, $file)
 	}
 }
 
-$isValid = false;
-var_dump($_POST);
-if (!empty($_POST['name']) && !empty($_POST['address']) && !empty($_POST['city']) && !empty($_POST['state']) && !empty($_POST['zip_code']))
+function read_csv($file)
 {
-	$isValid = true;
-	if(empty($_POST['phone_number']))
+	$handle = fopen($file, 'r');
+	$array = [];
+	while(!feof($handle))
 	{
-		array_pop($_POST);
+		$row = fgetcsv($handle);
+		if(is_array($row))
+		{
+			$array[] = $row;
+		}
+	}
+	fclose($handle);
+	return $array;
+}
+
+;
+
+$address_book = read_csv($filename);
+$isValid = false;
+
+if(isset($_GET['index']))
+{
+	$index = $_GET['index'];
+	unset($address_book[$index]);
+	$address_book = array_values($address_book);
+}
+
+if (!empty($new_contact['name']) && !empty($new_contact['address']) && !empty($new_contact['city']) && !empty($new_contact['state']) && !empty($new_contact['zip_code']))
+{
+	if(empty($new_contact['phone']))
+	{
+		echo " ";
+	}
+	$isValid = true;
+	if($isValid)
+	{
+		array_push($address_book, $new_contact);
 	}
 }
-
-if($isValid)
+else
 {
-	save_contact($address_book, $filename);
+	echo "Please enter valid data.";
 }
+var_dump($address_book);
 
+save_contact($address_book, $filename);
 // display error if information is missing
 ?>
 <html>
@@ -51,28 +82,20 @@ if($isValid)
 
 	<table border= 1>
 		<tr>
-			<th>Name</th><th>Address</th><th>City</th><th>State</th><th>Zip Code</th><th>Phone Number</th>
+			<th>Name</th><th>Address</th><th>City</th><th>State</th><th>Zip Code</th><th>Phone Number</th><th>Remove</th>
 		</tr>
-	<?
-		foreach($address_book as $contact)
-		{
-			foreach ($contact as $type => $value)
-			{
-				// validate 5 required fields: name, address, city, state and zip
-				if (empty($value))
-				{
-					echo "Please enter valid $type.<br>";
-					echo "<td>" . '' . "</td>";
-				}
-				else
-				{
-					echo "<td>{$value}</td>";
-				// save information to a csv file
-				}
-			}
-		}
-	?>
+	<? foreach($address_book as $index => $contact): ?>
+		<tr>
+		<? foreach ($contact as $value): ?>
+			<!-- validate 5 required fields: name, address, city, state and zip -->
+			<?= "<td>" . htmlspecialchars(strip_tags($value)) . "</td>"?>
+			<!-- save information to a csv file -->
+		<? endforeach; ?>
+		<td><?="<a href=\"/address_book.php?index={$index}\">Remove Item</a>";?></td>
+		</tr>
+	<? endforeach; ?>
 	</table>
+	
 	<!-- forms for last and first name -->
 	<br>
 	<form method="POST" action='address_book.php'>
