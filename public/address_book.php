@@ -1,50 +1,54 @@
 <?
-	// echo "<h1>GET</h1>";
-	// var_dump($_GET);
-	// echo "<br>";
-	// echo "<h1>POST</h1>";
-	// var_dump($_POST);
-	// echo "<br>";
-
-$filename = "address_book.csv";
+//initialize empty address book
 $address_book = [];
+
+//storing info from the $_POST
 $new_contact = $_POST;
 
-// function to store new entries
-function save_contact($contacts, $file)
-{
-	if(is_writeable($file))
-	{
-		$handle = fopen($file, 'w');
-		foreach ($contacts as $fields)
-		{
-			fputcsv($handle, $fields);
-		}
-		fclose($handle);
-	}
-}
+//creating a new instance of the class
+$addresses = new AddressDataStore();
 
-function read_csv($file)
-{
-	$handle = fopen($file, 'r');
-	$array = [];
-	while(!feof($handle))
-	{
-		$row = fgetcsv($handle);
-		if(is_array($row))
-		{
-			$array[] = $row;
-		}
-	}
-	fclose($handle);
-	return $array;
-}
+//accessing the address class and reading the file
+$address_book = $addresses->read_address_book();
 
-;
-
-$address_book = read_csv($filename);
+//setting a check for all $_POST data
 $isValid = false;
 
+class AddressDataStore
+{
+    public $filename = 'address_book.csv';
+
+    function read_address_book()
+    {
+        $handle = fopen($this->filename, 'r');
+		$array = [];
+		while(!feof($handle))
+		{
+			$row = fgetcsv($handle);
+			if(is_array($row))
+			{
+				$array[] = $row;
+			}
+		}
+		fclose($handle);
+		return $array;
+    }
+
+    function write_address_book($addresses_array)
+    {
+        if(is_writeable($this->filename))
+		{
+			$handle = fopen($this->filename, 'w');
+			foreach ($addresses_array as $fields)
+			{
+				fputcsv($handle, $fields);
+			}
+			fclose($handle);
+		}
+    }
+}
+
+//if the user clicks a remove link, sets the $_GET and removes the item
 if(isset($_GET['index']))
 {
 	$index = $_GET['index'];
@@ -52,12 +56,15 @@ if(isset($_GET['index']))
 	$address_book = array_values($address_book);
 }
 
+//checking that all values are filled
 if (!empty($new_contact['name']) && !empty($new_contact['address']) && !empty($new_contact['city']) && !empty($new_contact['state']) && !empty($new_contact['zip_code']))
 {
+	//if phone number is empty, filling it with an empty string
 	if(empty($new_contact['phone']))
 	{
 		echo " ";
 	}
+	//if the info is there, changes var $isValid to true and pushes the info to the address array
 	$isValid = true;
 	if($isValid)
 	{
@@ -66,37 +73,39 @@ if (!empty($new_contact['name']) && !empty($new_contact['address']) && !empty($n
 }
 else
 {
+	// display error if information is missing
 	echo "Please enter valid data.";
 }
-var_dump($address_book);
 
-save_contact($address_book, $filename);
-// display error if information is missing
+//accesses the class and saves the information to the csv file
+$addresses->write_address_book($address_book);
+
 ?>
 <html>
 <head>
-	<title></title>
+	<title>Address Book</title>
 </head>
 <body>
+
 <!-- 	address book table -->
 
 	<table border= 1>
 		<tr>
 			<th>Name</th><th>Address</th><th>City</th><th>State</th><th>Zip Code</th><th>Phone Number</th><th>Remove</th>
 		</tr>
-	<? foreach($address_book as $index => $contact): ?>
-		<tr>
-		<? foreach ($contact as $value): ?>
-			<!-- validate 5 required fields: name, address, city, state and zip -->
-			<?= "<td>" . htmlspecialchars(strip_tags($value)) . "</td>"?>
-			<!-- save information to a csv file -->
+		<? foreach($address_book as $index => $contact): ?>
+			<tr>
+				<? foreach ($contact as $value): ?>
+					 <td> <?= htmlspecialchars(strip_tags($value)) ?> </td>
+				<? endforeach; ?>
+				<td><?="<a href=\"/address_book.php?index={$index}\">Remove Item</a>";?></td>
+			</tr>
 		<? endforeach; ?>
-		<td><?="<a href=\"/address_book.php?index={$index}\">Remove Item</a>";?></td>
-		</tr>
-	<? endforeach; ?>
 	</table>
-	
-	<!-- forms for last and first name -->
+
+	<!--    FORMS    -->
+
+	<!-- forms for name -->
 	<br>
 	<form method="POST" action='address_book.php'>
 
@@ -123,7 +132,6 @@ save_contact($address_book, $filename);
 		<label for="zip_code">Zip Code </label>
 		<input type="text" id="zip_code" name="zip_code">
 	<br>
-
 
 	<!-- form for phone -->
 		<label for="phone_number">Phone Number </label>
