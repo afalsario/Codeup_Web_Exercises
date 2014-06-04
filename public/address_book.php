@@ -12,7 +12,7 @@ $errorMessage = '';
 $isValid = false;
 
 //include the AddressDataStore class to read and write files
-include ('classes/address_data_store.php');
+require_once('classes/address_data_store.php');
 
 //creating a new instance of the class
 $ads = new AddressDataStore('address_book.csv');
