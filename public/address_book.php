@@ -5,48 +5,45 @@ $address_book = [];
 //storing info from the $_POST
 $new_contact = $_POST;
 
-//creating a new instance of the class
-$addresses = new AddressDataStore();
-
-//accessing the address class and reading the file
-$address_book = $addresses->read_address_book();
+$error_message = "";
+$errorMessage = '';
 
 //setting a check for all $_POST data
 $isValid = false;
 
-class AddressDataStore
-{
-    public $filename = 'address_book.csv';
+//include the AddressDataStore class to read and write files
+include ('classes/address_data_store.php');
 
-    function read_address_book()
-    {
-        $handle = fopen($this->filename, 'r');
-		$array = [];
-		while(!feof($handle))
-		{
-			$row = fgetcsv($handle);
-			if(is_array($row))
-			{
-				$array[] = $row;
-			}
-		}
-		fclose($handle);
-		return $array;
-    }
+//creating a new instance of the class
+$ads = new AddressDataStore('address_book.csv');
+//accessing the address class and reading the file
+$address_book = $ads->read_address_book();
 
-    function write_address_book($addresses_array)
-    {
-        if(is_writeable($this->filename))
+
+if(!empty($new_contact)){
+	//checking that all values are filled
+	if (!empty($new_contact['name']) && !empty($new_contact['address']) && !empty($new_contact['city']) && !empty($new_contact['state']) && !empty($new_contact['zip_code']))
+	{
+		//if phone number is empty, filling it with an empty string
+		if(empty($new_contact['phone']))
 		{
-			$handle = fopen($this->filename, 'w');
-			foreach ($addresses_array as $fields)
-			{
-				fputcsv($handle, $fields);
-			}
-			fclose($handle);
+			echo " ";
 		}
-    }
+		//if the info is there, changes var $isValid to true and pushes the info to the address array
+		$isValid = true;
+		if($isValid)
+		{
+			array_push($address_book, $new_contact);
+		}
+	}
+	else
+	{
+		// display error if information is missing
+		$error_message = "Please enter valid data.";
+	}
 }
+
+
 
 //if the user clicks a remove link, sets the $_GET and removes the item
 if(isset($_GET['index']))
@@ -56,42 +53,49 @@ if(isset($_GET['index']))
 	$address_book = array_values($address_book);
 }
 
-//checking that all values are filled
-if (!empty($new_contact['name']) && !empty($new_contact['address']) && !empty($new_contact['city']) && !empty($new_contact['state']) && !empty($new_contact['zip_code']))
+//verify that there were valid uploaded files
+if(isset($_FILES['file1']) && ($_FILES['file1']['type'] !== 'text/csv'))
 {
-	//if phone number is empty, filling it with an empty string
-	if(empty($new_contact['phone']))
-	{
-		echo " ";
-	}
-	//if the info is there, changes var $isValid to true and pushes the info to the address array
-	$isValid = true;
-	if($isValid)
-	{
-		array_push($address_book, $new_contact);
-	}
+	$errorMessage = "ERROR: Please use a csv file";
 }
-else
+elseif(count($_FILES) > 0 && $_FILES['file1']['error'] == 0)
 {
-	// display error if information is missing
-	echo "Please enter valid data.";
+	//set destination for uploaded files
+	$upload_dir = '/vagrant/sites/codeup.dev/public/uploads/';
+	//get the file name using basename
+	$filename = basename($_FILES['file1']['name']);
+	// Create the saved filename using the file's original name and our upload directory
+	$saved_filename = $upload_dir . $filename;
+	// Move the file from the temp location to our uploads directory
+	move_uploaded_file($_FILES['file1']['tmp_name'], $saved_filename);
+	//add new csv file data and merging it to existing address book
+	$new_book = new AddressDataStore($saved_filename);
+	$new_book = $new_book->read_address_book();
+	$address_book = array_merge($address_book, $new_book);
 }
 
 //accesses the class and saves the information to the csv file
-$addresses->write_address_book($address_book);
+$ads->write_address_book($address_book);
 
 ?>
+<!DOCTYPE HTML>
 <html>
 <head>
 	<title>Address Book</title>
 </head>
 <body>
+<h2 align="center">Address Book</h2>
 
 <!-- 	address book table -->
-
-	<table border= 1>
+	<table align="center" border= 1>
 		<tr>
-			<th>Name</th><th>Address</th><th>City</th><th>State</th><th>Zip Code</th><th>Phone Number</th><th>Remove</th>
+			<th>Name</th>
+			<th>Address</th>
+			<th>City</th>
+			<th>State</th>
+			<th>Zip Code</th>
+			<th>Phone Number</th>
+			<th>Remove</th>
 		</tr>
 		<? foreach($address_book as $index => $contact): ?>
 			<tr>
@@ -102,44 +106,60 @@ $addresses->write_address_book($address_book);
 			</tr>
 		<? endforeach; ?>
 	</table>
-
+	<? if(isset($error_message)): ?>
+	<p style="color:red"><?= $error_message; ?></p>
+	<? endif; ?>
 	<!--    FORMS    -->
 
 	<!-- forms for name -->
-	<br>
+	<table>
 	<form method="POST" action='address_book.php'>
+		<tr>
+			<td align="right"><label for="name">Name </label></td>
+			<td><input type="text" id="name" name="name"></td>
+		</tr>
 
-	<label for="name">Name </label>
-		<input type="text" id="name" name="name" value="<? $isValid && $_POST['name'] ? $_POST['name'] : '';?>">
-	<br>
+			<!-- form for address -->
+		<tr>
+			<td align="right"><label for="address">Address </label></td>
+			<td><input type="text" id="address" name="address"></td>
+		</tr>
 
-	<!-- form for address -->
-		<label for="address">Address </label>
-		<input type="text" id="address" name="address">
-	<br>
+			<!-- form for city -->
+		<tr>
+			<td align="right"><label for="city">City </label></td>
+			<td><input type="text" id="city" name="city"></td>
+		</tr>
 
-	<!-- form for city -->
-		<label for="city">City </label>
-		<input type="text" id="city" name="city">
-	<br>
+			<!-- form for state -->
+		<tr>
+			<td align="right"><label for="state">State </label></td>
+			<td><input type="text" id="state" name="state"></td>
+		</tr>
 
-	<!-- form for state -->
-		<label for="state">State </label>
-		<input type="text" id="state" name="state">
-	<br>
+			<!-- form for zip -->
+		<tr>
+			<td align="right"><label for="zip_code">Zip Code </label></td>
+			<td><input type="text" id="zip_code" name="zip_code"></td>
+		</tr>
 
-	<!-- form for zip -->
-		<label for="zip_code">Zip Code </label>
-		<input type="text" id="zip_code" name="zip_code">
-	<br>
+			<!-- form for phone -->
+		<tr>
+			<td align="right"><label for="phone_number">Phone Number </label></td>
+			<td><input type="text" id="phone_number" name="phone_number"></td>
+		</tr>
+	</table>
+		<input type="submit">
+	</form>
 
-	<!-- form for phone -->
-		<label for="phone_number">Phone Number </label>
-		<input type="text" id="phone_number" name="phone_number">
-	<br>
-
-	<input type="submit">
-</form>
+<h3>Upload Address Book</h3>
+	<? if(isset($errorMessage)): ?>
+	<p style="color:red"><?= $errorMessage; ?></p>
+	<? endif; ?>
+	<form method='POST' enctype="multipart/form-data">
+		<input type="file" name="file1">
+		<input type="submit" value="Upload">
+	</form>
 
 </body>
 </html>
