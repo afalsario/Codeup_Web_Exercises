@@ -1,0 +1,66 @@
+body {
+	background-color: #000000;
+}
+
+h1 {
+	text-align: center;
+}
+
+body {
+	width:441px;
+	height:560px;
+	margin-left: auto;
+    margin-right: auto;
+    background-color: #000000;
+    padding: 0px 10px 10px 10px;
+}
+
+div {
+	border: 1px solid black;
+	height: 50px;
+	width: 50px;
+	margin-bottom: 10px;
+	color: white;
+	padding: 10px;
+	font-weight: bold;
+	font-size: 15px;
+	position:relative;
+	float:left;
+}
+
+div>img{
+	position:absolute;
+	top:-40px;
+	right:-40px;
+}
+
+div.red_box {
+	background-color: red;
+	margin: 25px;
+}
+
+div.orange_box {
+	background-color: orange;
+	margin:25px;
+}
+
+div.yellow_box {
+	background-color: yellow;
+	margin: 25px;
+}
+
+div.green_box {
+	background-color: green;
+	margin: 25px;
+	clear:left;
+}
+
+div.blue_box {
+	background-color: blue;
+	margin: 25px;
+}
+
+div.violet_box {
+	background-color: violet;
+	margin: 25px;
+}
