@@ -7,7 +7,7 @@
 <body>
 
 
-	<h1>jQuery Exercise</h1>
+	<h1 class="main-header">jQuery Exercise</h1>
 
 	<div id="lorem">
 		<p class="codeup">
@@ -19,6 +19,8 @@
 			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 		</p>
 	</div>
+
+	<button id="header">Change Header</button>
 
 	<ul>
 		<li id="first" class="codeup">Create content in your HTML file using at least the following elements: h1, p, ul, li, div.</li>
@@ -36,11 +38,22 @@
 
 	<script>
 
-		// $(document).ready(function(){
-		// 	alert('The DOM has finished loading');
-		// });
+	$('#header').click(function(){
+		$('h1').css('background-color', 'pink');
+	});
 
-		$('h1, p, li').css('background-color', 'pink');
+	$('p').dblclick(function(){
+		$('p').css('font-size', '18px');
+	});
+
+	$('li').hover(
+        function() {
+            $(this).css('color', 'red');
+        },
+        function() {
+            $(this).css('color', 'black');
+        }
+    );
 
 	</script>
 
