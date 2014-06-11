@@ -10,7 +10,7 @@
 	<h1>jQuery Exercise</h1>
 
 	<div id="lorem">
-		<p>
+		<p class="codeup">
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -21,11 +21,11 @@
 	</div>
 
 	<ul>
-		<li id="first" class="even">Create content in your HTML file using at least the following elements: h1, p, ul, li, div.</li>
+		<li id="first" class="codeup">Create content in your HTML file using at least the following elements: h1, p, ul, li, div.</li>
 
 		<li id="first" class="odd">Add several attributes to your elements; you will need both id and class attributes.</li>
 
-		<li class="even">Use jQuery to select an element by the id. Alert the contents of the element.</li>
+		<li class="codeup">Use jQuery to select an element by the id. Alert the contents of the element.</li>
 
 		<li class="odd">Update the jQuery code to select and alert a different id.</li>
 
@@ -40,8 +40,8 @@
 		// 	alert('The DOM has finished loading');
 		// });
 
-		var header = $('h1');
-		alert(header.html());
+		var codeup = $('.codeup');
+		codeup.css('border', '1px solid red');
 
 	</script>
 
