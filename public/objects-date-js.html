@@ -12,16 +12,21 @@ var months = ['January', 'Februrary', 'March', 'April', 'May', 'June', 'July', '
 
 // todo:
 // Create the date corresponding to your birthday using the JavaScript Date object.
-//var jsBirthday
+var jsBirthday =  new Date(1988, 3, 3);
 
 // todo:
 // Log your birthday in the format: January 1, 2014 using the JavaScript Date object.
 // See link below for methods needed:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#Getter
-console.log('Here is my birthday using vanilla js: ');
+var day = jsBirthday.getDate();
+
+var year = jsBirthday.getFullYear();
+
+console.log('Here is my birthday using vanilla js: ' + months[3] + " " + day + " " + year);
+
 
 // create the date corresponding to your birthday using Moment.js.
-//var momentBirthday
+var momentBirthday
 
 // todo:
 // Log your birthday in the format: January 1, 2014 using Moment.js.
