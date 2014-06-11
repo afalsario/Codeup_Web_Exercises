@@ -4,6 +4,7 @@
 	<title></title>
 </head>
 <body>
+<script src="js/moment.js"></script>
 <script>
 
 // todo:
@@ -22,16 +23,21 @@ var day = jsBirthday.getDate();
 
 var year = jsBirthday.getFullYear();
 
-console.log('Here is my birthday using vanilla js: ' + months[3] + " " + day + " " + year);
+console.log('Here is my birthday using vanilla js: ' + months[3] + " " + day + ", " + year);
 
 
 // create the date corresponding to your birthday using Moment.js.
-var momentBirthday
+var momentBirthday = moment(jsBirthday).format("MMMM D, YYYY");
+
+;
 
 // todo:
 // Log your birthday in the format: January 1, 2014 using Moment.js.
-console.log('Here is my birthday using Moment.js: ');
+console.log('Here is my birthday using Moment.js: ' + momentBirthday);
+
+
 
 </script>
+
 </body>
 </html>
