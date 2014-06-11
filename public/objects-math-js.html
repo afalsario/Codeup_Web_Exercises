@@ -19,11 +19,7 @@ var circle =
     },
     logInfo: function (round)
     {
-        var number = circle.getArea();
-        if(round == true)
-        {
-        	number = Math.round(circle.getArea());
-        }
+        var number = (round) ? Math.round(this.getArea()) : this.getArea();
         // todo: complete this method. if round is true, round the result to the nearest integer.
         console.log('Area of a circle with radius: ' + this.radius + ', is: ' + number);
     }
@@ -45,6 +41,5 @@ circle.logInfo(false);
 circle.logInfo(true);
 
 </script>
-
 </body>
 </html>
