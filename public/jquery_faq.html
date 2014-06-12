@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Facts</title>
+	<script src="/js/jquery-2.1.1.js"></script>
+</head>
+<body>
+
+<style>
+.invisible{
+	display: none;
+}
+
+</style>
+
+<h1>10 National Park Facts</h1>
+
+<dl>
+	<dt>Fact 1</dt>
+	<dd>Stuff</dd>
+	<dt>Fact 2</dt>
+	<dd>Stuff</dd>
+	<dt>Fact 3</dt>
+	<dd>Stuff</dd>
+	<dt>Fact 4</dt>
+	<dd>Stuff</dd>
+	<dt>Fact 5</dt>
+	<dd>Stuff</dd>
+	<dt>Fact 6</dt>
+	<dd>Stuff</dd>
+	<dt>Fact 8</dt>
+	<dd>Stuff</dd>
+	<dt>Fact 9</dt>
+	<dd>Stuff</dd>
+	<dt>Fact 10</dt>
+	<dd>Stuff</dd>
+
+</dl>
+
+<button id='toggle'>Toggle Facts</button>
+
+<script>
+$('#toggle').click(function(event){
+	$('dd').toggleClass('invisible');
+})
+</script>
+
+</body>
+</html>
