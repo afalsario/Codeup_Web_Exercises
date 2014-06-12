@@ -53,10 +53,41 @@ dt {
 
 <button id='toggle'>Toggle Facts</button>
 
+<h3>Park 1</h3>
+<ul>
+	<li>Fact 1</li>
+	<li>Fact 2</li>
+	<li>Fact 3</li>
+	<li>Fact 4</li>
+</ul>
+
+<h3>Park 2</h3>
+<ul>
+	<li>Fact 1</li>
+	<li>Fact 2</li>
+	<li>Fact 3</li>
+	<li>Fact 4</li>
+</ul>
+
+<h3>Park 3</h3>
+<ul>
+	<li>Fact 1</li>
+	<li>Fact 2</li>
+	<li>Fact 3</li>
+	<li>Fact 4</li>
+</ul>
+
 <script>
 $('#toggle').click(function(event){
 	$('dd').toggleClass('invisible');
 })
+
+// $('ul').children().first().css('font-weight', 'bold');
+
+$('ul').each(function(index){
+	$(this).children().first().css('font-weight', 'bold');
+});
+
 </script>
 
 </body>
