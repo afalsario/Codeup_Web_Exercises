@@ -53,33 +53,33 @@ dt {
 
 <button id='toggle'>Toggle Facts</button>
 
-<h3>Park 1</h3>
+<h3>Badlands National Park</h3>
 <ul>
-	<li>Fact 1</li>
-	<li>Fact 2</li>
-	<li>Fact 3</li>
-	<li>Fact 4</li>
+	<li>Located in South Dakota</li>
+	<li>244,300 acres</li>
+	<li>Badlands National Park is considered home to one of the world's richest deposits of mammal fossil beds.</li>
+	<li>The Badlands average one inch of erosion per year.</li>
 </ul>
 
-<h3>Park 2</h3>
+<h3>Denali National Park</h3>
 <ul>
-	<li>Fact 1</li>
-	<li>Fact 2</li>
-	<li>Fact 3</li>
-	<li>Fact 4</li>
+	<li>Located in Alaska</li>
+	<li>6,075,029 acres</li>
+	<li>Centered on Denali (Mount McKinley), the highest mountain in North America</li>
+	<li>Today, 400,000 people visit the park annually.</li>
 </ul>
 
-<h3>Park 3</h3>
+<h3>Yellowstone</h3>
 <ul>
-	<li>Fact 1</li>
-	<li>Fact 2</li>
-	<li>Fact 3</li>
-	<li>Fact 4</li>
+	<li>World’s First National Park</li>
+	<li>2,221,766 acres</li>
+	<li>Approximately 1,000-3,000 earthquakes annually</li>
+	<li>All visitors must keep 100 yards away from wolves and bears, and 25 yards from other animals.</li>
 </ul>
 
 <script>
 $('#toggle').click(function(event){
-	$('dd').toggleClass('invisible');
+	$('dd').toggle();
 })
 
 // $('ul').children().first().css('font-weight', 'bold');
@@ -88,8 +88,8 @@ $('ul').each(function(index){
 	$(this).children().first().css('font-weight', 'bold');
 });
 
-$('li').click(function(event){
-	$(this).parent().toggleClass('invisible');
+$('h3').click(function(event){
+	$(this).next().hide();
 });
 
 
