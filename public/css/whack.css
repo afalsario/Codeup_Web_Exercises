@@ -1,3 +1,8 @@
+body {
+	text-align: center;
+	font-size:30px;
+}
+
 #box {
 	border:1px solid red;
 	height: 712px;
