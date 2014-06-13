@@ -1,0 +1,42 @@
+#box {
+	border:1px solid red;
+	height: 712px;
+	width:712px;
+	padding:0;
+	margin-left: 350px;
+	margin-right: 250px;
+	position: absolute;
+	/*cursor:url(/img/pulse.png),auto;*/
+
+}
+
+.gameover {
+	border:none;
+	text-align: center;
+	font-weight: bold;
+	color:red;
+	font-size: 100px;
+	height: 712px;
+	padding:0;
+	margin-left: 350px;
+	margin-right: 250px;
+	position: absolute;
+}
+
+div {
+	border:1px solid red;
+	height: 235px;
+	width: 235px;
+	position:relative;
+	float:left;
+}
+.left-middle, .left-bottom {
+	clear:left;
+}
+
+.mole {
+	display:none;
+}
+
+
+
