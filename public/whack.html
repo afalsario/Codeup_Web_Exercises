@@ -3,18 +3,48 @@
 <head>
 	<title></title>
 <script src="/js/jquery-2.1.1.js"></script>
+<link rel="stylesheet" href="/css/whack.css">
 </head>
 <body>
 
-	<img id="mole" style="display:none;cursor:pointer" src="/img/resetti.jpg">
+<button>Start</button>
+
+	<div id="box">
+		<div id="1"></div>
+		<div id="2"></div>
+		<div id="3"></div>
+		<div id="4" class='left-middle'></div>
+		<div id="5"></div>
+		<div id="6"></div>
+		<div id="7" class="left-bottom"></div>
+		<div id="8"></div>
+		<div id="9"></div>
+	</div>
+
+	<span>Score: </span>
 
 	<script>
+	var i = 0;
+	//select a random div
+	function getRandomInt(min, max)
+	{
+  		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
 
-	$('#mole').fadeIn(1000);
+	console.log(getRandomInt(1,9));
 
-	$('#mole').click(function(){
-		$(this).fadeOut();
-	});
+	var randDiv = "#" + getRandomInt(1,9);
+
+	console.log(randDiv);
+
+	var mole = $(randDiv).css('background-image', 'url(/img/resetti.jpg)');
+
+	setTimeout(function(){
+		location.reload();
+		$(mole).fadeIn(1000).fadeOut(1000);
+	}, 500);
+
+
 	</script>
 
 </body>
