@@ -11,13 +11,13 @@ $errorMessage = '';
 //setting a check for all $_POST data
 $isValid = false;
 
-//include the AddressDataStore class to read and write files
+//include the AddressDataStore class and Filestore to read and write files
 require_once('classes/address_data_store.php');
 
 //creating a new instance of the class
 $ads = new AddressDataStore('address_book.csv');
 //accessing the address class and reading the file
-$address_book = $ads->read_address_book();
+$address_book = $ads->read_csv();
 
 
 if(!empty($new_contact)){
@@ -70,12 +70,12 @@ elseif(count($_FILES) > 0 && $_FILES['file1']['error'] == 0)
 	move_uploaded_file($_FILES['file1']['tmp_name'], $saved_filename);
 	//add new csv file data and merging it to existing address book
 	$new_book = new AddressDataStore($saved_filename);
-	$new_book = $new_book->read_address_book();
+	$new_book = $new_book->read_csv();
 	$address_book = array_merge($address_book, $new_book);
 }
 
 //accesses the class and saves the information to the csv file
-$ads->write_address_book($address_book);
+$ads->write_csv($address_book);
 
 ?>
 <!DOCTYPE HTML>
