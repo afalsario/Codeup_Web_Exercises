@@ -1,18 +1,43 @@
 body {
 	text-align: center;
 	font-size:30px;
+	background-color: #57F7FF;
+}
+
+h1 {
+	text-align: center;
+	color:red;
+	margin:0;
+}
+
+button {
+	font-size: 20px;
+	background-color: black;
+	color:red;
+	border-radius: 10px;
+}
+
+#highScores {
+	float:left;
+	border: 5px solid black;
+}
+
+table {
+	text-align: center;
+	margin-left: 22px;
+	color: black;
 }
 
 #box {
+	background-color: rgb(255,172,138);
 	border:1px solid red;
-	height: 712px;
-	width:712px;
+	height: 709px;
+	width:709px;
 	padding:0;
 	margin-left: 350px;
 	margin-right: 250px;
 	position: absolute;
-	/*cursor:url(/img/pulse.png),auto;*/
-
+	cursor: url(/img/pulse.png), auto;
 }
 
 .gameover {
@@ -21,7 +46,7 @@ body {
 	font-weight: bold;
 	color:red;
 	font-size: 100px;
-	height: 712px;
+	height: 710px;
 	padding:0;
 	margin-left: 350px;
 	margin-right: 250px;
@@ -30,8 +55,8 @@ body {
 
 div {
 	border:1px solid red;
-	height: 235px;
-	width: 235px;
+	height: 234px;
+	width: 234px;
 	position:relative;
 	float:left;
 }
