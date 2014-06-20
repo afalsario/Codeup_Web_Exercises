@@ -1,4 +1,7 @@
 <?
+
+class InvalidInputException extends Exception{}
+
 //initialize empty address book
 $address_book = [];
 
@@ -19,37 +22,46 @@ $ads = new AddressDataStore('address_book.csv');
 //accessing the address class and reading the file
 $address_book = $ads->read();
 
-
-if(!empty($new_contact)){
-	//checking that all values are filled
-	if (!empty($new_contact['name']) && !empty($new_contact['address']) && !empty($new_contact['city']) && !empty($new_contact['state']) && !empty($new_contact['zip_code']))
-	{
-		foreach($new_contact as $value)
+try
+{
+	if(!empty($new_contact)){
+		//checking that all values are filled
+		if (!empty($new_contact['name']) && !empty($new_contact['address']) && !empty($new_contact['city']) && !empty($new_contact['state']) && !empty($new_contact['zip_code']))
 		{
-			if(strlen($value) > 120)
+			foreach($new_contact as $value)
 			{
-				throw new Exception("Input too long!");
+				if(strlen($value) > 120)
+				{
+					throw new InvalidInputException("Input is too long!");
+				}
+			}
+			//if phone number is empty, filling it with an empty string
+			if(empty($new_contact['phone']))
+			{
+				echo " ";
+			}
+			//if the info is there, changes var $isValid to true and pushes the info to the address array
+			$isValid = true;
+			if($isValid)
+			{
+				array_push($address_book, $new_contact);
 			}
 		}
-		//if phone number is empty, filling it with an empty string
-		if(empty($new_contact['phone']))
+		else
 		{
-			echo " ";
+			// display error if information is missing
+			throw new Exception("You did it wrong!");
 		}
-		//if the info is there, changes var $isValid to true and pushes the info to the address array
-		$isValid = true;
-		if($isValid)
-		{
-			array_push($address_book, $new_contact);
-		}
-	}
-	else
-	{
-		// display error if information is missing
-		throw new Exception("You did it wrong!");
 	}
 }
-
+catch (Exception $e)
+{
+	$e->getMessage();
+}
+catch (InvalidInputException $e)
+{
+	$e->getMessage();
+}
 
 
 //if the user clicks a remove link, sets the $_GET and removes the item
@@ -113,8 +125,8 @@ $ads->write($address_book);
 			</tr>
 		<? endforeach; ?>
 	</table>
-	<? if(isset($error_message)): ?>
-	<p style="color:red"><?= $error_message; ?></p>
+	<? if(isset($e)): ?>
+	<p style="color:red"><?= $e->getMessage(); ?></p>
 	<? endif; ?>
 	<!--    FORMS    -->
 
