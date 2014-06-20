@@ -24,6 +24,13 @@ if(!empty($new_contact)){
 	//checking that all values are filled
 	if (!empty($new_contact['name']) && !empty($new_contact['address']) && !empty($new_contact['city']) && !empty($new_contact['state']) && !empty($new_contact['zip_code']))
 	{
+		foreach($new_contact as $value)
+		{
+			if(strlen($value) > 120)
+			{
+				throw new Exception("Input too long!");
+			}
+		}
 		//if phone number is empty, filling it with an empty string
 		if(empty($new_contact['phone']))
 		{
@@ -39,7 +46,7 @@ if(!empty($new_contact)){
 	else
 	{
 		// display error if information is missing
-		$error_message = "Please enter valid data.";
+		throw new Exception("You did it wrong!");
 	}
 }
 
