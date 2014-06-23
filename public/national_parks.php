@@ -25,7 +25,7 @@ $next_page = $page + 1;
 <html>
 <head>
 	<title>National Parks</title>
-	
+
 	<style>
 	h2{
 		text-align: center;
