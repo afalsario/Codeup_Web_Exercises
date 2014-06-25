@@ -8,7 +8,7 @@ function getOffset($items_per_page){
 }
 
 // Get new instance of PDO object
-$dbc = new PDO('mysql:host=127.0.0.1;dbname=codeup_pdo_test_db', 'ashley', 'password');
+$dbc = new PDO('mysql:host=127.0.0.1;dbname=todo_db', 'ashley', 'password');
 
 // Tell PDO to throw exceptions on error
 $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
