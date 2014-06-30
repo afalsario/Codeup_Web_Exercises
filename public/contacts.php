@@ -14,8 +14,8 @@ try
 	if(!empty($_POST['new_name']) && !empty($_POST['new_number']))
 	{
 		$stmt = $dbc->prepare('INSERT INTO contact (first_name, phone_number) VALUES (:new_name, :new_number)');
-		$stmt->bindValue(':new_name', $_POST['new_name'], PDO::PARAM_STR);
-		$stmt->bindValue(':new_number', $_POST['new_number'], PDO::PARAM_STR);
+		$stmt->bindValue(':new_name', htmlspecialchars(strip_tags($_POST['new_name'])), PDO::PARAM_STR);
+		$stmt->bindValue(':new_number', htmlspecialchars(strip_tags($_POST['new_number'])), PDO::PARAM_STR);
 		$stmt->execute();
 	}
 	else
@@ -29,7 +29,7 @@ catch (InvalidInputException $e)
 	$e->getMessage();
 }
 
-$limit = 4;
+$limit = 10;
 $offset = 0;
 
 //preparing data from the table so that it shows a limit of items and an offset for pagination
