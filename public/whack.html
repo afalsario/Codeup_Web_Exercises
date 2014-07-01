@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<title></title>
+    <title></title>
 <script src="/js/jquery-2.1.1.js"></script>
 <link rel="stylesheet" href="/css/whack.css">
 </head>
@@ -13,118 +13,105 @@ Timer: <span id="timer">60</span>
 Score: <span id="score"></span>
 <br>
 
-	<div id="box">
-		<div class='box'>
-			<img class='mole' src="/img/resetti.jpg">
-		</div>
-		<div class='box'>
-			<img class='mole' src="/img/resetti.jpg">
-		</div>
-		<div class='box'>
-			<img class='mole' src="/img/resetti.jpg">
-		</div>
-		<div class='box' class='left-middle'>
-			<img class='mole' src="/img/resetti.jpg">
-		</div>
-		<div class='box'>
-			<img class='mole' src="/img/resetti.jpg">
-		</div>
-		<div class='box'>
-			<img class='mole' src="/img/resetti.jpg">
-		</div>
-		<div class='box' class="left-bottom">
-			<img class='mole' src="/img/resetti.jpg">
-		</div>
-		<div class='box'>
-			<img class='mole' src="/img/resetti.jpg">
-		</div>
-		<div class='box'>
-			<img class='mole' src="/img/resetti.jpg">
-		</div>
-	</div>
+    <div id="box">
+        <div class='box'>
+            <img class='mole' src="/img/resetti.jpg">
+        </div>
+        <div class='box'>
+            <img class='mole' src="/img/resetti.jpg">
+        </div>
+        <div class='box'>
+            <img class='mole' src="/img/resetti.jpg">
+        </div>
+        <div class='box' class='left-middle'>
+            <img class='mole' src="/img/resetti.jpg">
+        </div>
+        <div class='box'>
+            <img class='mole' src="/img/resetti.jpg">
+        </div>
+        <div class='box'>
+            <img class='mole' src="/img/resetti.jpg">
+        </div>
+        <div class='box' class="left-bottom">
+            <img class='mole' src="/img/resetti.jpg">
+        </div>
+        <div class='box'>
+            <img class='mole' src="/img/resetti.jpg">
+        </div>
+        <div class='box'>
+            <img class='mole' src="/img/resetti.jpg">
+        </div>
+    </div>
 
-	<script>
+    <script>
+        var gameTime = 60;
+        var score = 0;
+        console.log(score);
 
-	//select a random div
-	//array of mole images
+        var random;
+        var randDiv;
+        var mole;
+        var gameOn;
+        var delay = 1000;
 
-	var gameTime = 60;
-	var score = 0;
-	console.log(score);
+        $('#gameOn').click(function(event){
 
-	var random;
-	var randDiv;
-	var mole;
-	var gameOn;
-	var delay = 1000;
+            gameOn =  setInterval(function(){
 
-$('#gameOn').click(function(event){
+                random = Math.round(Math.random()*8);
+                randDiv = $('.box').eq(random).click();
+                mole = $('.mole')[random];
 
-	gameOn =  setInterval(function(){
+                $(mole).fadeIn(200).delay(delay).fadeOut(400);
 
-		random = Math.round(Math.random()*8);
-		randDiv = $('.box').eq(random).click();
-		mole = $('.mole')[random];
+                console.log(mole);
 
-		$(mole).fadeIn(200).delay(delay).fadeOut(400);
+                $(mole).on('click', function(){
+                    $(this).fadeOut();
+                });
 
-		console.log(mole);
+            }, 2000);
 
-		$(mole).on('click', function(){
-			$(this).fadeOut();
-		});
+            $('img').on('click', function(){
+                $('#score').html(score += 1);
+                switch(score){
+                    case 3: delay = 800;
+                    break;
+                    case 8: delay = 400;
+                    break;
+                    case 15: delay = 100;
+                    break;
+                }
+            });
 
-	}, 2000);
+            continueGame();
+        });
 
-	$('img').on('click', function(){
-			$('#score').html(score += 1);
-			switch(score){
-				case 3: delay = 800;
-				break;
-				case 8: delay = 400;
-				break;
-				case 15: delay = 100;
-				break;
-			}
-		});
+        function levelTwo(){
+            delay = 100;
+        }
 
-	
+        function gameOver(){
+            clearInterval(gameOn);
+            $('#box').addClass('gameover').html('<p>GAME OVER</p>').css('border', 'none');
+            $('#gameOn').click(function() {
+                location.reload();
+            });
+        }
 
-	continueGame();
-});
+        function continueGame(){
+            setTimeout(function(){
+                gameTime--;
+                $('#timer').html(gameTime);
 
-function levelTwo(){
-	delay = 100;
-}
-
-function gameOver() {
-	clearInterval(gameOn);
-	$('#box').addClass('gameover').html('<p>GAME OVER</p>').css('border', 'none');
-	$('#gameOn').click(function() {
-	    location.reload();
-	});
-}
-
-function continueGame() {
-	setTimeout(function(){
-		gameTime--;
-		$('#timer').html(gameTime);
-
-		if (gameTime > 0) {
-			continueGame();
-		} else {
-			gameOver();
-		}
-	}, 1000);
-}
-
-
-
-
-
-
-
-	</script>
+                if (gameTime > 0) {
+                    continueGame();
+                } else {
+                    gameOver();
+                }
+            }, 1000);
+        }
+    </script>
 
 </body>
 </html>
